@@ -10,6 +10,7 @@ ${InvalidUser}    invalid@test.com
 ${InvalidPassword}    Invalid1
 ${SERVER}         sut-cb.n4sjamk.org
 #${SERVER}        localhost:8000
+${SServer}        http://localhost:8002
 ${MainUrl}        http://${SERVER}
 ${LoginUrl}       http://${SERVER}/login
 ${BoardUrl}       http://${SERVER}/boards
@@ -18,6 +19,14 @@ ${LoginTitle}     Contriboard
 ${custombackground}    http://tinyurl.com/pevhhv7
 
 *** Keywords ***
+Configure Noise
+    [Arguments]    ${Latency}    ${PLoss}
+    Create Session    htttbin    ${SServer}
+    Set Test Variable    ${data}    {"delay":${Latency},"loss":${PLoss}}
+    ${headers}=    Create Dictionary    Content-Type    application/json
+    ${resp}=    Put Request    httpbin    /limit    data=${data}    headers=${headers}
+    Should Be Equal As Strings    ${resp.status_code}    200
+
 Open Browser To Login Page
     Open Browser    ${LoginUrl}    ${Browser}
     Set Window Size    1920    1200
