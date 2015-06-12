@@ -21,7 +21,7 @@ ${custombackground}    http://tinyurl.com/pevhhv7
 *** Keywords ***
 Configure Noise
     [Arguments]    ${Latency}    ${PLoss}
-    Create Session    htttbin    ${SServer}
+    Create Session    httpbin    ${SServer}
     Set Test Variable    ${data}    {"delay":${Latency},"loss":${PLoss}}
     ${headers}=    Create Dictionary    Content-Type    application/json
     ${resp}=    Put Request    httpbin    /limit    data=${data}    headers=${headers}
